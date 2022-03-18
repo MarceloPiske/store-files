@@ -1,3 +1,4 @@
 from django.contrib import admin
+from .models import DiretoriosS3
 
-# Register your models here.
+admin.site.register(DiretoriosS3)
