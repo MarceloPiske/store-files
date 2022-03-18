@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pyske Dash Board</title>
+    <!-- MATERIAL ICONS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <!-- STYLESHEET -->
+    <link rel="stylesheet" href="../static/index.css">
+
+</head>
+<body>
+    <div class="container">
+        <aside>
+            <div class="top">
+                <div class="logo">
+                    <img src="./images/logo.png" alt="">
+                    <h2 class="text-muted"><span class="is-green">Py</span>ske</h2>
+                </div>
+                <div class="close">
+                    <span class="material-icons-sharp">close</span>
+                </div>
+            </div>
+            <div class="sidebar">
+                
+                <a href="#">
+                    <span class="material-icons-sharp">folder</span>
+                    <h3>Storage Manage</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Log Out</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- ----------------- END OF ASIDE ------------- -->
+        <main>
+            <h2>Gerenciador de Arquivos</h2>
+            <div class="right">
+                <div class="top">
+                    <div class="profile">
+                        <div class="info">
+                            <p>Olá, <b>Piske</b></p> <!-- nameuser  -->
+                            <small class="text-muted">Admin</small> <!-- status user -->
+                        </div>
+                        <div class="profile-photo">
+                            <img src="./images/profile-1.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="manage-storage">
+                <span class="directories">/media/</span>
+                <div class="item-list">
+                    <div>
+                        <span class="material-icons-sharp">description</span>
+                    </div>
+                    <span class="name-descripition">
+                        nome do arquivo
+                    </span>
+                    <div class="trash">
+                        <span class="material-icons-sharp">delete</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+    <script src="./index.js"></script>
+</body>
+</html>

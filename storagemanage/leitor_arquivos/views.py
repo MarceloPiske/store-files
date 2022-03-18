@@ -7,8 +7,9 @@ from django.core.files import File
 
 def index(request):
     arquivo = DiretoriosS3.objects.get(pk=2).arquivo.path
-    
+
     print(arquivo)
-    DiretoriosS3.objects.get(pk=2).arquivo.path
+    #arquivo = "media"
     #sarquivo.save()
-    return HttpResponse("tamo indo ai")
+    #return HttpResponse("tamo indo ai")
+    return render(request, "index.html")
