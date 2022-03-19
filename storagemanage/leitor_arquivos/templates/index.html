@@ -52,7 +52,18 @@
                 </div>
             </div>
             <div class="manage-storage">
-                <span class="directories">/media/</span>
+                <div>
+                    <span class="directories">/media/</span>
+                    <form id="formFiles" action="" method="post" enctype="multipart/form-data">{%csrf_token%}
+                        <input type="file" name="arquivos" id="selectFiles">
+                        <input type="submit" value="enviar">
+                    </form>
+                    
+                    <button id="more">
+                        <span class="material-icons-sharp">add_circle_outline</span>
+                    </button>
+                </div>
+                
                 <div class="item-list">
                     <div>
                         <span class="material-icons-sharp">description</span>
@@ -68,6 +79,18 @@
         </main>
         
     </div>
-    <script src="./index.js"></script>
+    <script>
+        const more = document.getElementById('more')
+        const selectFiles = document.getElementById('selectFiles')
+        const formFiles = document.getElementById('formFiles')
+
+        more.addEventListener('click', (e) => {
+            selectFiles.click();
+            e.preventDefault();
+            formFiles.submit();
+        })
+        
+    </script>
+    <!-- <script src="./index.js"></script> -->
 </body>
 </html>

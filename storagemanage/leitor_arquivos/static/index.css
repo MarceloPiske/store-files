@@ -273,11 +273,24 @@ main .manage-storage{
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
 }
+main .manage-storage input{
+    /* visibility: hidden; */
+}
+main .manage-storage div{
+    display: flex;
+    margin-bottom: .5rem;
+    width: auto;
+}
+main .manage-storage #more{
+    margin-left: auto;
+    cursor: pointer;
+    
+}
 main .manage-storage .directories{
     display: flex;
     width: auto;
     height: 2rem;
-    margin-left: auto;
+    /* margin-left: auto; */
 }
 main .manage-storage .item-list{
     align-items: center;
