@@ -13,83 +13,232 @@
 </head>
 <body>
     <div class="container">
-        <aside>
-            <div class="top">
-                <div class="logo">
-                    <img src="./images/logo.png" alt="">
-                    <h2 class="text-muted"><span class="is-green">Py</span>ske</h2>
-                </div>
-                <div class="close">
-                    <span class="material-icons-sharp">close</span>
-                </div>
-            </div>
-            <div class="sidebar">
-                
-                <a href="#">
-                    <span class="material-icons-sharp">folder</span>
-                    <h3>Storage Manage</h3>
-                </a>
-                <a href="#">
-                    <span class="material-icons-sharp">logout</span>
-                    <h3>Log Out</h3>
-                </a>
-            </div>
-        </aside>
-        <!-- ----------------- END OF ASIDE ------------- -->
+        
         <main>
-            <h2>Gerenciador de Arquivos</h2>
-            <div class="right">
-                <div class="top">
-                    <div class="profile">
-                        <div class="info">
-                            <p>Olá, <b>Piske</b></p> <!-- nameuser  -->
-                            <small class="text-muted">Admin</small> <!-- status user -->
-                        </div>
-                        <div class="profile-photo">
-                            <img src="./images/profile-1.jpg" alt="">
+            <div class="header">
+                <h2>Gerenciador de Arquivos</h2>
+                <div class="right">
+                    <div class="top">
+                        <div class="profile">
+                            <div class="info">
+                                <p>Olá, <b>Piske</b></p> <!-- nameuser  -->
+                                <small class="text-muted">Admin</small> <!-- status user -->
+                            </div>
+                            <div class="profile-photo">
+                                <img src="./media/" alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="manage-storage">
                 <div>
-                    <span class="directories">/media/</span>
+                    <span id="#directories" class="directories">
+                        <a href="">/media/</a> 
+                    </span>
                     <form id="formFiles" action="" method="post" enctype="multipart/form-data">{%csrf_token%}
                         <input type="file" name="arquivos" id="selectFiles">
+                        <input type="text" name="diretorio" id="diretorioAtual">
                         <input type="submit" value="enviar">
                     </form>
-                    
-                    <button id="more">
-                        <span class="material-icons-sharp">add_circle_outline</span>
+
+                    <button id="addFolder">
+                        <span class="material-icons-sharp">create_new_folder</span>
+                        <input type="text" name="diretorioText" id="diretorioText">
+                    </button>
+                    <button id="butmore">
+                        <a id="more">
+                            <span class="material-icons-sharp">cloud_upload</span>
+                        </a>
+                        <a id="arquivoText">Clique para Escolher um arquivo</a>
                     </button>
                 </div>
-                
-                <div class="item-list">
-                    <div>
-                        <span class="material-icons-sharp">description</span>
-                    </div>
-                    <span class="name-descripition">
-                        nome do arquivo
-                    </span>
-                    <div class="trash">
-                        <span class="material-icons-sharp">delete</span>
+                <div id="content-items" class="content-items">
+                    <div class="item-list">
+                        <div>
+                            <span class="material-icons-sharp">description</span>
+                        </div>
+                        <span class="name-descripition">
+                            nome do arquivo
+                        </span>
+                        <div class="trash">
+                            <span class="material-icons-sharp">delete</span>
+                        </div>
                     </div>
                 </div>
+                
             </div>
         </main>
         
     </div>
     <script>
+        
+        function criaDiretorio(params) {
+            let url = "garquivos"
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader("X-CSRFToken","{{csrf_token}}")
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+            
+            xhr.onload = function () {
+
+                let status = this.responseText.status
+                window.location.reload
+                //let response = JSON.parse(this.responseText)
+
+            };
+            let envio = "diretorio="+params
+            xhr.send(envio);
+        }
+
+        function deleteArquivo(pasta, flag, arquivo) {
+            //flag = 1 para arquivos e 0 para pastas 
+            flag = parseInt(flag)
+            console.log(pasta, flag, arquivo);
+            let url = "garquivos"
+            var xhr = new XMLHttpRequest();
+            xhr.open('DELETE', url, true);
+            xhr.setRequestHeader("X-CSRFToken","{{csrf_token}}")
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+            
+            xhr.onload = function () {
+
+                let status = this.responseText.status
+                if (flag == 1){
+                    document.getElementById(`${pasta}/${arquivo}`).remove()
+                }else if(flag == 0){
+                    document.getElementById(`${pasta}/${arquivo}`).remove()
+                }
+                
+                //let response = JSON.parse(this.responseText)
+                
+            };
+            let array = {pasta: pasta, arquivo: arquivo, flag: flag}
+
+            let envio = `data=${JSON.stringify(array)}`
+            xhr.send(envio);
+        }
+
+        function getFolder(dado) {
+            console.log(dado);
+            let url = "garquivos"
+            var xhr = new XMLHttpRequest();
+            xhr.open('PATCH', url, true);
+            xhr.setRequestHeader("X-CSRFToken","{{csrf_token}}")
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+            
+            xhr.onload = function () {
+                
+                let status = this.responseText.status
+                let response = JSON.parse(this.responseText)
+
+                desenhaItens(response);
+            };
+            let envio = "data="+dado
+            xhr.send(envio);
+        }
+        
+        function desenhaItens(params) {
+            console.log(params);
+            items = params[0].pasta
+            diretorio = params[0].diretorio
+            
+            pasta = items.nome_pasta
+            subpastas = items.subpastas
+            arquivos = items.arquivos
+
+            console.log(diretorio);
+            // setar diretorio padrao para envio
+            localStorage.setItem('diretorio', `${diretorio}`);
+            document.getElementById('diretorioAtual').value = diretorio+'/'
+
+            const contetnItems = document.querySelector('.content-items')
+            let itemsForAppend = ""
+            // desenhar pastas
+            for (s in subpastas){
+                itemsForAppend += `<div id="${diretorio}/${subpastas[s]}" class="item-list">
+                                        <div>
+                                            <span class="material-icons-sharp">folder</span>
+                                        </div>
+                                        <span class="name-descripition">
+                                            <a onclick="getFolder('${subpastas[s]}')" >${subpastas[s]}</a>
+                                        </span>
+                                        <div onclick="deleteArquivo('${diretorio}', 0, '${subpastas[s]}')"  class="trash">
+                                            <span class="material-icons-sharp">delete</span>
+                                        </div>
+                                    </div>`
+            }
+            // desenhar arquivos
+            for (a in arquivos){
+                itemsForAppend += `<div id="${pasta}/${arquivos[a]}" class="item-list">
+                                        <div>
+                                            <span class="material-icons-sharp">description</span>
+                                        </div>
+                                        <span class="name-descripition">
+                                            ${arquivos[a]}
+                                        </span>
+                                        <a href="/media/${arquivos[a]}" download>
+                                                <span class="material-icons-sharp">cloud_download</span>
+                                            </a>
+                                        <div onclick="deleteArquivo('${pasta}', 1, '${arquivos[a]}')" class="trash">
+                                            
+                                            <span class="material-icons-sharp">delete</span>
+                                        </div>
+                                    </div>`
+            }
+
+            contetnItems.innerHTML = itemsForAppend
+
+            const gerenteDiretorios = document.querySelector('.directories')
+            //diretorio = 
+            const diteretorios = `${diretorio}`.split('/')
+            dirs = ""
+            console.log(diteretorios);
+            
+            for (d in diteretorios){
+                dirs += `<a onclick="getFolder('${diteretorios[d]}')">
+                        ${diteretorios[d]}/
+                    </a>`
+            }
+            gerenteDiretorios.innerHTML = dirs
+        }
+        
+        desenhaItens({{arquivos|safe}})
+        //adicionar arquivo
         const more = document.getElementById('more')
         const selectFiles = document.getElementById('selectFiles')
         const formFiles = document.getElementById('formFiles')
+        const arquivoText = document.getElementById('arquivoText')
 
-        more.addEventListener('click', (e) => {
+        arquivoText.addEventListener('click', (e) => {
             selectFiles.click();
-            e.preventDefault();
-            formFiles.submit();
-        })
+            //e.preventDefault();
+            
+            arquivoText.innerText = "Arquivo pronto para envio"
+            more.addEventListener('click', () => {
+                formFiles.submit();
+            })
+            
+        }) 
         
+        //adicionar pasta
+        const addFolder = document.getElementById('addFolder')
+        addFolder.addEventListener('click', () => {
+            const diretorioText = document.getElementById('diretorioText')
+            
+            diretorioText.addEventListener('keyup', (e) => {
+                //console.log(e.key);
+                if (e.key == "Enter"){
+                    
+                    const value = diretorioText.value
+                    const rootDir = localStorage.getItem('diretorio').replace("media", "")
+                    criaDiretorio(rootDir+"/"+value)
+                    diretorioText.value = ""
+                    
+                }
+            })
+            
+        })
     </script>
     <!-- <script src="./index.js"></script> -->
 </body>

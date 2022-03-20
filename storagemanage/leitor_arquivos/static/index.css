@@ -51,11 +51,9 @@ body{
 }
 
 .container{
-    display: grid;
+    display: block;
     width: 96%;
     margin: 0 auto;
-    gap: 1.8rem;
-    grid-template-columns: 14rem auto;
 }
 
 a{
@@ -134,162 +132,85 @@ b{
     color: var(--color-warning);
 }
 
-aside {
-    height: 100vh;
-    /* background-color: gray; */
-
-}
-
-aside .top{
-    background: var(--color-white);
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* pesquisar sobre */
-    margin-top: 1.4rem;
-}
-
-aside .logo{
-    display: flex;
-    gap: 0.8rem;
-}
-
-aside .logo img{
-    width: 2rem;
-    height: 2rem;
-}
-
-aside .close{
-    display: none;
-}
-
-/* ============ SIDEBAR =========== */
-aside .sidebar{
-    background: var(--color-white);
-    display: flex;
-    flex-direction: column;
-    height: 86vh;
-    position: relative;
-    top: 2rem;
-}
-aside h3{
-    font-weight: 500;
-}
-
-aside .sidebar a{
-    display: flex;
-    color: var(--color-info-dark);
-    margin-left: 1rem;
-    gap: 1rem;
-    align-items: center;
-    position: relative;
-    height: 3.7rem;
-    padding-left: .7rem;
-    /* transition: all 300ms ease; */
-}
-
-aside .sidebar a span{
-    font-size: 1.6rem;
-}
-
-aside .sidebar a:last-child{
-    position: absolute;
-    bottom: 2rem;
-    width: 100%;
-}
-aside .sidebar a:first-child{
-    /* position: absolute; */
-    margin-top: 3rem;
-    width: 100%;
-}
-
-/* aside .sidebar a:active{
-    background: var(--color-ligth);
-    color: var(--color-primary);
-    margin-left: 0;
-}
-aside .sidebar a:active::before{
-    content: '';
-    width: 6px;
-    height: 100%;
-    background: var(--color-primary);
-}
-
-aside .sidebar a:active span{
-    color: var(--color-primary);
-    margin-left: calc(1rem - 3px);
-} */
-
-aside .sidebar a:hover{
-    color: var(--color-primary);
-    background-color: var(--color-background);
-    border-radius: 10px;
-}
-aside .sidebar a:hover::before{
-    content: '';
-    position: absolute;
-    right: 0;
-    top: -30px;
-    width: 30px;
-    height: 30px;
-    background: transparent;
-    border-radius: 50%;
-    box-shadow: 15px 25px 0 10px var(--color-background);
-    pointer-events: none;
-    
-}
-aside .sidebar a:hover::after{
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: -30px;
-    width: 30px;
-    height: 30px;
-    background: transparent;
-    border-radius: 50%;
-    box-shadow: 15px -25px 0 10px var(--color-background);
-    pointer-events: none;
-}
-/* aside .sidebar a:hover span{
-    margin-left: 1rem;
-} */
-
-aside .sidebar .message-count{
-    background: var(--color-danger);
-    color: var(--color-white);
-    padding: 2px 10px;
-    font-size: 11px;
-    border-radius: var(--border-radius-1);
-    z-index: 3;
-}
-
 /* ================== MAIN =============== */
 main{
     margin-top: 1.4rem;
     z-index: 3;
 }
-
+main .header{
+    display: flex;
+}
 main .manage-storage{
     background-color: var(--color-white);
-    padding: var(--card-padding);
+    padding: 15px;
     border-radius: var(--card-border-radius);
+    height: auto;
 }
 main .manage-storage input{
-    /* visibility: hidden; */
+    visibility: hidden;
 }
 main .manage-storage div{
     display: flex;
     margin-bottom: .5rem;
     width: auto;
 }
-main .manage-storage #more{
+main .manage-storage .content-items{
+    display: grid;
+    gap: .5rem;
+}
+
+main .manage-storage div button{
+    display: flex;
+    align-items: center;
     margin-left: auto;
     cursor: pointer;
-    
+    box-shadow: var(--box-shandow);
+    background: var(--color-white);
+    border-radius: 10px;
+    padding: 10px;
+    transition: width 3000ms ease;
+}
+main .manage-storage div button input{
+    /* opacity: 0; */
+    width: 0;
+    margin-left: 0px;
+    transition: width 2000ms ease;
+}
+main .manage-storage div button a{
+    display:none;
+    width: 0;
+    margin-left: 0px;
+    transition: width 2000ms ease;
+}
+
+main .manage-storage div button:hover input{
+    opacity: 100;
+    visibility: visible;
+    width: auto;
+    margin-left: 10px;
+}
+main .manage-storage div button:hover a{
+    display: block;
+    width: auto;
+    margin-left: 10px;
+}
+
+main .manage-storage #more{
+    display: block;
+    width: auto;
+}
+#butmore{
+    margin-left: 10px;
 }
 main .manage-storage .directories{
     display: flex;
+    align-items: center;
     width: auto;
-    height: 2rem;
+    cursor: pointer;
+    box-shadow: var(--box-shandow);
+    background: var(--color-white);
+    border-radius: 10px;
+    padding: 10px;
     /* margin-left: auto; */
 }
 main .manage-storage .item-list{
@@ -301,15 +222,20 @@ main .manage-storage .item-list{
     border-radius: 10px;
     padding: 10px;
 }
+
 main .manage-storage .item-list .name-descripition{
     margin-right: auto;
     margin-left: 5px;
     right: 0;
 }
+main .manage-storage .item-list .name-descripition a {
+    cursor: pointer;
+}
 main .manage-storage .item-list .trash{
     cursor: pointer;
     right: 0;
 }
+
 /* =============== right ============= */
 
 .right{
